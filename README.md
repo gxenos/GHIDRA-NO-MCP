@@ -72,3 +72,14 @@ Each `.c` file includes metadata header:
 ## Analysis
 
 By default, the script runs Ghidra with the default analysis options.
+
+### Analysis Options
+
+| Option | Description |
+|--------|-------------|
+| `--no-memory` | Skip memory hexdump export |
+| `--no-strings` | Skip string extraction |
+| `--no-imports` | Skip import table export |
+| `--no-exports` | Skip export table export |
+| `--decompiler-timeout` | Timeout per function in seconds (0 = unlimited, default: 0) |
+| `--max-payload` | Max decompiler payload size in MB (default: 100) |
