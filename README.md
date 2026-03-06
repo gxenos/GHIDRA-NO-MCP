@@ -1,30 +1,29 @@
 # GHIDRA-NO-MCP
 
-**AI Reverse Engineering, Zero MCP.**
-
 Export Ghidra decompilation results as source files for use with AI IDEs.
+
+Inspired by: https://github.com/P4nda0s/IDA-NO-MCP
+
+> Text, Source Code, and Shell are LLM's native languages.
 
 ## Installation
 
-### From PyPI (recommended)
+### Local developement 
+
 ```bash
-pip install ghidra-no-mcp
+uv venv && uv pip install -e .
+uv venv  uv pip install -e .
 ```
 
-### From GitHub (latest)
+### With uvx from GitHub
 ```bash
 uvx git+https://github.com/gxenos/ghidra-no-mcp
-```
-
-### Local development
-```bash
-uv pip install -e .
 ```
 
 ## Usage
 
 ```bash
-ghidra-no-mcp /path/to/binary /output/dir
+ghidra-no-mcp -g /path/to/GHIDRA /path/to/binary /output/dir
 ```
 
 ### Options
@@ -69,7 +68,3 @@ Each `.c` file includes metadata header:
  * callees: 0x404000
  */
 ```
-
-## License
-
-Apache 2.0
