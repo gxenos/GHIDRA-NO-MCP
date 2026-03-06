@@ -50,11 +50,11 @@ GHIDRA_INSTALL_DIR=/opt/ghidra uvx git+https://github.com/gxenos/ghidra-no-mcp .
 
 | Directory/File | Description |
 |---------------|-------------|
-| `decompile/` | Decompiled C files (one per function) |
+| `decompile/` | Decompiled C files (one per function), includes function name, address, callers, callees|
 | `strings.txt` | String table |
 | `imports.txt` | Import table |
 | `exports.txt` | Export table |
-| `memory/` | Memory hexdumps |
+| `memory/` | Memory hexdumps, 1MB chunks|
 | `decompile_skipped.txt` | Skipped functions |
 | `decompile_failed.txt` | Failed functions |
 
