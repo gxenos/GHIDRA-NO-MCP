@@ -68,3 +68,7 @@ Each `.c` file includes metadata header:
  * callees: 0x404000
  */
 ```
+
+## Analysis
+
+By default, the script runs Ghidra with the default analysis options.
