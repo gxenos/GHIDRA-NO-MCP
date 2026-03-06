@@ -1,6 +1,6 @@
 # GHIDRA-NO-MCP
 
-Export Ghidra decompilation results as source files for use with AI IDEs.
+Export Ghidra decompilation results as source files for use with AI IDEs. Runs as a cmd script, uses pyghidra and headless mode and doesn't require the Ghidra GUI.
 
 Inspired by: https://github.com/P4nda0s/IDA-NO-MCP
 
