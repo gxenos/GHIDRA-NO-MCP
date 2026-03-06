@@ -8,16 +8,15 @@ Inspired by: https://github.com/P4nda0s/IDA-NO-MCP
 
 ## Installation
 
+### With uvx from GitHub
+```bash
+uvx git+https://github.com/gxenos/ghidra-no-mcp
+```
+
 ### Local developement 
 
 ```bash
 uv venv && uv pip install -e .
-uv venv  uv pip install -e .
-```
-
-### With uvx from GitHub
-```bash
-uvx git+https://github.com/gxenos/ghidra-no-mcp
 ```
 
 ## Usage
