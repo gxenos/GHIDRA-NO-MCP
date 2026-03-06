@@ -50,6 +50,38 @@ Examples:
         action="store_true",
         help="Enable verbose logging",
     )
+    parser.add_argument(
+        "--no-memory",
+        action="store_true",
+        help="Skip memory hexdump export",
+    )
+    parser.add_argument(
+        "--no-strings",
+        action="store_true",
+        help="Skip string extraction",
+    )
+    parser.add_argument(
+        "--no-imports",
+        action="store_true",
+        help="Skip import table export",
+    )
+    parser.add_argument(
+        "--no-exports",
+        action="store_true",
+        help="Skip export table export",
+    )
+    parser.add_argument(
+        "--decompiler-timeout",
+        type=int,
+        default=0,
+        help="Timeout per function in seconds (0 = unlimited, default: 0)",
+    )
+    parser.add_argument(
+        "--max-payload",
+        type=int,
+        default=100,
+        help="Max decompiler payload size in MB (default: 100)",
+    )
 
     args = parser.parse_args()
 
@@ -103,7 +135,15 @@ Examples:
             loaded = results.getPrimary()
             program = loaded.getDomainObject()
 
-            exporter = GhidraExporter(program)
+            exporter = GhidraExporter(
+                program,
+                skip_memory=args.no_memory,
+                skip_strings=args.no_strings,
+                skip_imports=args.no_imports,
+                skip_exports=args.no_exports,
+                decompiler_timeout=args.decompiler_timeout,
+                max_payload_mb=args.max_payload,
+            )
             exporter.export_all(output_dir)
 
         print()

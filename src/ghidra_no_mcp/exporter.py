@@ -13,8 +13,23 @@ logger = logging.getLogger(__name__)
 
 
 class GhidraExporter:
-    def __init__(self, program: "Program"):
+    def __init__(
+        self,
+        program: "Program",
+        skip_memory: bool = False,
+        skip_strings: bool = False,
+        skip_imports: bool = False,
+        skip_exports: bool = False,
+        decompiler_timeout: int = 0,
+        max_payload_mb: int = 100,
+    ):
         self.program = program
+        self.skip_memory = skip_memory
+        self.skip_strings = skip_strings
+        self.skip_imports = skip_imports
+        self.skip_exports = skip_exports
+        self.decompiler_timeout = decompiler_timeout
+        self.max_payload_mb = max_payload_mb
         self.decompiler = self._setup_decompiler()
         self.stats = {
             "total_functions": 0,
@@ -30,7 +45,7 @@ class GhidraExporter:
 
         prog_options = DecompileOptions()
         prog_options.grabFromProgram(self.program)
-        prog_options.setMaxPayloadMBytes(100)
+        prog_options.setMaxPayloadMBytes(self.max_payload_mb)
 
         decomp = DecompInterface()
         decomp.setOptions(prog_options)
@@ -51,10 +66,26 @@ class GhidraExporter:
         logger.info("Analysis complete.")
 
         self.export_functions(output_dir)
-        self.export_strings(output_dir)
-        self.export_imports(output_dir)
-        self.export_exports(output_dir)
-        self.export_memory(output_dir)
+
+        if not self.skip_strings:
+            self.export_strings(output_dir)
+        else:
+            logger.info("  Strings: skipped")
+
+        if not self.skip_imports:
+            self.export_imports(output_dir)
+        else:
+            logger.info("  Imports: skipped")
+
+        if not self.skip_exports:
+            self.export_exports(output_dir)
+        else:
+            logger.info("  Exports: skipped")
+
+        if not self.skip_memory:
+            self.export_memory(output_dir)
+        else:
+            logger.info("  Memory: skipped")
 
         self._print_statistics()
         return self.stats
@@ -95,7 +126,7 @@ class GhidraExporter:
 
                 try:
                     result: "DecompileResults" = self.decompiler.decompileFunction(
-                        func, 0, monitor
+                        func, self.decompiler_timeout, monitor
                     )
                     if result.getErrorMessage():
                         failed_f.write(
