@@ -26,7 +26,7 @@ uv venv && uv pip install -e .
 ## Usage
 
 ```bash
-ghidra-no-mcp -g /path/to/GHIDRA /path/to/binary /output/dir
+uv run ghidra-no-mcp -g /path/to/GHIDRA /path/to/binary /output/dir
 ```
 
 ### Options
@@ -41,10 +41,10 @@ ghidra-no-mcp -g /path/to/GHIDRA /path/to/binary /output/dir
 ```bash
 # Using environment variable
 export GHIDRA_INSTALL_DIR=/opt/ghidra/ghidra_12.0.4_PUBLIC
-ghidra-no-mcp ./malware.exe ./analysis
+uv run ghidra-no-mcp ./malware.exe ./analysis
 
 # Using CLI argument
-ghidra-no-mcp -g /opt/ghidra ./malware.exe ./analysis
+uv run ghidra-no-mcp -g /opt/ghidra ./malware.exe ./analysis
 
 # With uvx
 GHIDRA_INSTALL_DIR=/opt/ghidra uvx git+https://github.com/gxenos/ghidra-no-mcp ./malware.exe ./analysis

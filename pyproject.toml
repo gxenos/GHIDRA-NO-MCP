@@ -17,6 +17,3 @@ ghidra-no-mcp = "ghidra_no_mcp.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.uv]
-index-url = "https://pypi.org/simple"
