@@ -2,7 +2,8 @@
 
 Export Ghidra decompilation results as source files for use with AI IDEs. 
 
-Runs as a cmd script, uses pyghidra and headless mode and doesn't require the Ghidra GUI.
+Runs from cmd, uses pyghidra and headless mode and doesn't require the Ghidra GUI.
+Just copy-paste the uvx command into the agent or skill. 
 
 Inspired by: https://github.com/P4nda0s/IDA-NO-MCP
 
