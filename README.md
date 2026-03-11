@@ -10,31 +10,39 @@ Inspired by: https://github.com/P4nda0s/IDA-NO-MCP
 
 > Text, Source Code, and Shell are LLM's native languages.
 
-## Installation
+## Installation and Usage
 
-### With uvx from GitHub
+### Install with uv
+
 ```bash
-uvx git+https://github.com/gxenos/ghidra-no-mcp
+uv tool install git+https://github.com/gxenos/GHIDRA-NO-MCP.git
 ```
 
-### Local developement 
+Run from anywhere:
+
+```bash
+ghidra-no-mcp -g /path/to/GHIDRA /path/to/binary /output/dir
+```
+
+### Run with uvx
+
+```bash
+uvx git+https://github.com/gxenos/GHIDRA-NO-MCP -g /path/to/GHIDRA /path/to/binary /output/dir
+```
+
+Or using environment variable:
+
+```bash
+GHIDRA_INSTALL_DIR=/path/to/GHIDRA uvx git+https://github.com/gxenos/GHIDRA-NO-MCP /path/to/binary /output/dir
+```
+
+## Other Installation Methods
+
+### Local development 
 
 ```bash
 uv venv && uv pip install -e .
 ```
-
-## Usage
-
-```bash
-uv run ghidra-no-mcp -g /path/to/GHIDRA /path/to/binary /output/dir
-```
-
-### Options
-
-| Option | Description |
-|--------|-------------|
-| `-g, --ghidra-path` | Path to Ghidra installation |
-| `-v, --verbose` | Enable verbose logging |
 
 ### Examples
 
@@ -47,8 +55,15 @@ uv run ghidra-no-mcp ./malware.exe ./analysis
 uv run ghidra-no-mcp -g /opt/ghidra ./malware.exe ./analysis
 
 # With uvx
-GHIDRA_INSTALL_DIR=/opt/ghidra uvx git+https://github.com/gxenos/ghidra-no-mcp ./malware.exe ./analysis
+GHIDRA_INSTALL_DIR=/opt/ghidra uvx git+https://github.com/gxenos/GHIDRA-NO-MCP ./malware.exe ./analysis
 ```
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `-g, --ghidra-path` | Path to Ghidra installation |
+| `-v, --verbose` | Enable verbose logging |
 
 ## Output
 
