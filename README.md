@@ -54,6 +54,7 @@ GHIDRA_INSTALL_DIR=/opt/ghidra uvx git+https://github.com/gxenos/ghidra-no-mcp .
 
 | Directory/File | Description |
 |---------------|-------------|
+| `call_graph.json` | Function call graph (nodes + edges), includes function names, addresses, caller/callee counts |
 | `decompile/` | Decompiled C files (one per function), includes function name, address, callers, callees|
 | `strings.txt` | String table |
 | `imports.txt` | Import table |
@@ -70,6 +71,20 @@ Each `.c` file includes metadata header:
  * callers: 0x402000
  * callees: 0x404000
  */
+```
+
+The `call_graph.json` file contains the full call graph:
+```json
+{
+  "nodes": [
+    {"address": "0x401000", "name": "main", "is_external": false, "caller_count": 0, "callee_count": 2},
+    {"address": "0x402000", "name": "validate_input", "is_external": false, "caller_count": 1, "callee_count": 3}
+  ],
+  "edges": [
+    {"caller": "0x401000", "caller_name": "main", "callee": "0x402000", "callee_name": "validate_input"}
+  ],
+  "stats": {"total_functions": 150, "total_calls": 342, "external_calls": 45}
+}
 ```
 
 ## Analysis

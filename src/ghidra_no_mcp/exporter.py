@@ -65,6 +65,7 @@ class GhidraExporter:
         pyghidra.analyze(self.program)
         logger.info("Analysis complete.")
 
+        self.export_call_graph(output_dir)
         self.export_functions(output_dir)
 
         if not self.skip_strings:
@@ -89,6 +90,101 @@ class GhidraExporter:
 
         self._print_statistics()
         return self.stats
+
+    def export_call_graph(self, output_dir: Path):
+        import json
+
+        graph_file = output_dir / "call_graph.json"
+        fm = self.program.getFunctionManager()
+        functions = list(fm.getFunctions(True))
+
+        nodes = []
+        edges = []
+        address_to_func = {}
+
+        logger.info("Building call graph...")
+
+        for func in functions:
+            addr = str(func.getEntryPoint())
+            address_to_func[addr] = {
+                "address": addr,
+                "name": func.getName(),
+                "is_external": func.isExternal(),
+            }
+
+        external_calls = 0
+
+        for func in functions:
+            caller_addr = str(func.getEntryPoint())
+            caller_name = func.getName()
+
+            try:
+                called_funcs = func.getCalledFunctions()
+                if called_funcs:
+                    for callee in called_funcs:
+                        callee_addr = str(callee.getEntryPoint())
+                        callee_name = callee.getName()
+
+                        if callee.isExternal():
+                            external_calls += 1
+
+                        edges.append(
+                            {
+                                "caller": caller_addr,
+                                "caller_name": caller_name,
+                                "callee": callee_addr,
+                                "callee_name": callee_name,
+                            }
+                        )
+            except Exception:
+                pass
+
+        for func in functions:
+            addr = str(func.getEntryPoint())
+            name = func.getName()
+            is_external = func.isExternal()
+
+            caller_count = 0
+            callee_count = 0
+
+            try:
+                calling_funcs = func.getCallingFunctions()
+                if calling_funcs:
+                    caller_count = len(list(calling_funcs))
+            except Exception:
+                pass
+
+            try:
+                called_funcs = func.getCalledFunctions()
+                if called_funcs:
+                    callee_count = len(list(called_funcs))
+            except Exception:
+                pass
+
+            nodes.append(
+                {
+                    "address": addr,
+                    "name": name,
+                    "is_external": is_external,
+                    "caller_count": caller_count,
+                    "callee_count": callee_count,
+                }
+            )
+
+        graph_data = {
+            "nodes": nodes,
+            "edges": edges,
+            "stats": {
+                "total_functions": len(nodes),
+                "total_calls": len(edges),
+                "external_calls": external_calls,
+            },
+        }
+
+        with open(graph_file, "w") as f:
+            json.dump(graph_data, f, indent=2)
+
+        logger.info(f"  Call graph: {len(nodes)} nodes, {len(edges)} edges")
 
     def export_functions(self, output_dir: Path):
         from ghidra.util.task import ConsoleTaskMonitor
